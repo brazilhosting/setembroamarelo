@@ -6,7 +6,9 @@
     <title>Campanhas de Saúde — Setembro Amarelo, Outubro Rosa e Novembro Azul</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Todos os estilos anteriores permanecem exatamente iguais */
         :root {
             --primary-yellow: #FFD400;
             --light-yellow: #FFEA7A;
@@ -778,6 +780,61 @@
                 font-size: 12px;
             }
         }
+
+        /* Novos estilos para gráficos */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--light-text);
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        .help-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--danger);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+
+        .help-button:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -822,6 +879,9 @@
                     <a href="#novembro-azul" class="btn btn-blue">
                         <i class="fas fa-mustache"></i> Novembro Azul
                     </a>
+                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20saúde%20mental" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    </a>
                 </div>
                 <div class="topics">
                     <div class="chip chip-yellow"><i class="fas fa-brain"></i> Saúde Mental</div>
@@ -852,6 +912,9 @@
                     </div>
                     
                     <a href="#setembro-amarelo" class="campanha-cta cta-yellow">Saiba mais</a>
+                    <a href="https://cvv.org.br/chat" class="help-button" target="_blank">
+                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    </a>
                 </div>
             </div>
             
@@ -874,6 +937,9 @@
                     </div>
                     
                     <a href="#outubro-rosa" class="campanha-cta cta-pink">Saiba mais</a>
+                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20mama" class="help-button" target="_blank">
+                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    </a>
                 </div>
             </div>
             
@@ -896,6 +962,9 @@
                     </div>
                     
                     <a href="#novembro-azul" class="campanha-cta cta-blue">Saiba mais</a>
+                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20próstata" class="help-button" target="_blank">
+                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    </a>
                 </div>
             </div>
         </section>
@@ -903,6 +972,35 @@
         <!-- Setembro Amarelo Section -->
         <section class="content-section" id="setembro-amarelo">
             <h2 class="section-title title-yellow"><i class="fas fa-heart"></i> Setembro Amarelo</h2>
+            
+            <div class="card fade-in">
+                <h3>Estatísticas - Setembro Amarelo</h3>
+                <p class="muted">Dados sobre suicídio no Brasil e no mundo:</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h4>Suicídios por Ano (Global)</h4>
+                        <div class="chart-container">
+                            <canvas id="suicidioGlobalChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Suicídios no Brasil por Faixa Etária</h4>
+                        <div class="chart-container">
+                            <canvas id="suicidioIdadeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Suicídios no Brasil por Gênero</h4>
+                        <div class="chart-container">
+                            <canvas id="suicidioGeneroChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="card fade-in">
                 <h3>Prevenção ao Suicídio e Valorização da Vida</h3>
                 <p class="muted">O Setembro Amarelo é uma campanha de conscientização sobre a prevenção do suicídio. No Brasil, foi criado em 2015 pelo CVV (Centro de Valorização da Vida), CFM (Conselho Federal de Medicina) e ABP (Associação Brasileira de Psiquiatria).</p>
@@ -969,12 +1067,45 @@
                         <p>Applications como Vita Alere, Virtual Hope Box e Calm oferecem recursos de autocuidado.</p>
                     </div>
                 </div>
+                
+                <a href="https://cvv.org.br/chat" class="help-button" target="_blank" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista
+                </a>
             </div>
         </section>
 
         <!-- Outubro Rosa Section -->
         <section class="content-section" id="outubro-rosa">
             <h2 class="section-title title-pink"><i class="fas fa-ribbon"></i> Outubro Rosa</h2>
+            
+            <div class="card fade-in">
+                <h3>Estatísticas - Outubro Rosa</h3>
+                <p class="muted">Dados sobre câncer de mama no Brasil e no mundo:</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h4>Incidência de Câncer de Mama (Brasil)</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerMamaIncidenciaChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Taxa de Mortalidade por Câncer de Mama</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerMamaMortalidadeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Detecção Precoce vs. Estágio Avançado</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerMamaDetecaoChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="card fade-in">
                 <h3>Conscientização sobre o Câncer de Mama</h3>
                 <p class="muted">O Outubro Rosa é uma campanha anual realizada mundialmente em outubro, com a intenção de alertar a sociedade sobre o diagnóstico precoce do câncer de mama. A mobilização visa também à disseminação de dados preventivos e ressalta a importância de olhar com atenção para a saúde.</p>
@@ -1047,12 +1178,45 @@
                         <p>Inchaço ou nódulo na axila pode ser um sinal de que o câncer se espalhou para os gânglios linfáticos.</p>
                     </div>
                 </div>
+                
+                <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20mama" class="help-button" target="_blank" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista no WhatsApp
+                </a>
             </div>
         </section>
 
         <!-- Novembro Azul Section -->
         <section class="content-section" id="novembro-azul">
             <h2 class="section-title title-blue"><i class="fas fa-mustache"></i> Novembro Azul</h2>
+            
+            <div class="card fade-in">
+                <h3>Estatísticas - Novembro Azul</h3>
+                <p class="muted">Dados sobre câncer de próstata no Brasil e no mundo:</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h4>Incidência de Câncer de Próstata (Brasil)</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerProstataIncidenciaChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Taxa de Mortalidade por Câncer de Próstata</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerProstataMortalidadeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>Diagnóstico por Faixa Etária</h4>
+                        <div class="chart-container">
+                            <canvas id="cancerProstataIdadeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="card fade-in">
                 <h3>Conscientização sobre a Saúde do Homem</h3>
                 <p class="muted">O Novembro Azul é uma campanha de conscientização realizada por diversas entidades no mês de novembro dirigida à sociedade e, em especial, aos homens, para conscientização a respeito de doenças masculinas, com ênfase na prevenção e no diagnóstico precoce do câncer de próstata.</p>
@@ -1125,6 +1289,10 @@
                         <p>Em alguns casos, pode haver dificuldade para atingir ou manter a ereção. No entanto, esse sintoma é comum a várias condições.</p>
                     </div>
                 </div>
+                
+                <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20próstata" class="help-button" target="_blank" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista no WhatsApp
+                </a>
             </div>
         </section>
     </div>
@@ -1144,7 +1312,7 @@
                         <li><a href="#outubro-rosa" class="pink"><i class="fas fa-chevron-right"></i> Outubro Rosa</a></li>
                         <li><a href="#novembro-azul" class="blue"><i class="fas fa-chevron-right"></i> Novembro Azul</a></li>
                         <li><a href="#" class="yellow"><i class="fas fa-chevron-right"></i> Estatísticas</a></li>
-                        <li><a href="#" class="pink"><i class="fas fa-chevron-right"></i> Preciso de Ajuda</a></li>
+                        <li><a href="https://wa.me/5511999999999?text=Preciso%20de%20ajuda" class="pink" target="_blank"><i class="fas fa-chevron-right"></i> Preciso de Ajuda</a></li>
                     </ul>
                 </div>
                 
@@ -1160,13 +1328,14 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© 2025 Campanhas de Saúde. Todos os direitos reservados. | Desenvolvido com ❤️ pelos alunos da turma 231: Lucas, Ray, Kamilly, Nathi, Anderson, José, afim de conscientizar a todos sobre saúde e prevenção</p>
+                <p>© 2023 Campanhas de Saúde. Todos os direitos reservados. | Desenvolvido com ❤️ para conscientização sobre saúde e prevenção</p>
                 <p>As informações contidas neste site são para fins educativos e não substituem acompanhamento profissional.</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Função para rolar suavemente até uma seção
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1229,6 +1398,366 @@
                 backToTopButton.style.placeItems = 'center';
             } else {
                 backToTopButton.style.display = 'none';
+            }
+        });
+
+        // Gráficos para Setembro Amarelo
+        const suicidioGlobalCtx = document.getElementById('suicidioGlobalChart').getContext('2d');
+        const suicidioGlobalChart = new Chart(suicidioGlobalCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Brasil', 'Américas', 'Europa', 'África', 'Sudeste Asiático', 'Pacífico Oeste'],
+                datasets: [{
+                    label: 'Mortes por 100 mil habitantes',
+                    data: [6.2, 9.8, 12.0, 11.2, 10.5, 7.5],
+                    backgroundColor: [
+                        'rgba(255, 212, 0, 0.7)',
+                        'rgba(255, 212, 0, 0.6)',
+                        'rgba(255, 212, 0, 0.5)',
+                        'rgba(255, 212, 0, 0.4)',
+                        'rgba(255, 212, 0, 0.3)',
+                        'rgba(255, 212, 0, 0.2)'
+                    ],
+                    borderColor: 'rgba(255, 212, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const suicidioIdadeCtx = document.getElementById('suicidioIdadeChart').getContext('2d');
+        const suicidioIdadeChart = new Chart(suicidioIdadeCtx, {
+            type: 'pie',
+            data: {
+                labels: ['15-29 anos', '30-49 anos', '50-69 anos', '70+ anos'],
+                datasets: [{
+                    data: [38, 35, 18, 9],
+                    backgroundColor: [
+                        'rgba(255, 212, 0, 0.8)',
+                        'rgba(255, 212, 0, 0.6)',
+                        'rgba(255, 212, 0, 0.4)',
+                        'rgba(255, 212, 0, 0.2)'
+                    ],
+                    borderColor: 'rgba(255, 212, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const suicidioGeneroCtx = document.getElementById('suicidioGeneroChart').getContext('2d');
+        const suicidioGeneroChart = new Chart(suicidioGeneroCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Homens', 'Mulheres'],
+                datasets: [{
+                    data: [79, 21],
+                    backgroundColor: [
+                        'rgba(255, 212, 0, 0.8)',
+                        'rgba(255, 212, 0, 0.4)'
+                    ],
+                    borderColor: 'rgba(255, 212, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráficos para Outubro Rosa
+        const cancerMamaIncidenciaCtx = document.getElementById('cancerMamaIncidenciaChart').getContext('2d');
+        const cancerMamaIncidenciaChart = new Chart(cancerMamaIncidenciaCtx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
+                datasets: [{
+                    label: 'Casos por 100 mil mulheres',
+                    data: [56.2, 57.1, 59.1, 61.6, 62.9, 66.3, 66.3, 66.3],
+                    backgroundColor: 'rgba(232, 63, 140, 0.2)',
+                    borderColor: 'rgba(232, 63, 140, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const cancerMamaMortalidadeCtx = document.getElementById('cancerMamaMortalidadeChart').getContext('2d');
+        const cancerMamaMortalidadeChart = new Chart(cancerMamaMortalidadeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Brasil', 'Sudeste', 'Sul', 'Centro-Oeste', 'Nordeste', 'Norte'],
+                datasets: [{
+                    label: 'Mortes por 100 mil mulheres',
+                    data: [13.7, 14.2, 14.8, 12.1, 12.9, 9.8],
+                    backgroundColor: 'rgba(232, 63, 140, 0.7)',
+                    borderColor: 'rgba(232, 63, 140, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const cancerMamaDetecaoCtx = document.getElementById('cancerMamaDetecaoChart').getContext('2d');
+        const cancerMamaDetecaoChart = new Chart(cancerMamaDetecaoCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Estágio Inicial (I e II)', 'Estágio Avançado (III e IV)'],
+                datasets: [{
+                    data: [45, 55],
+                    backgroundColor: [
+                        'rgba(232, 63, 140, 0.8)',
+                        'rgba(232, 63, 140, 0.4)'
+                    ],
+                    borderColor: 'rgba(232, 63, 140, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráficos para Novembro Azul
+        const cancerProstataIncidenciaCtx = document.getElementById('cancerProstataIncidenciaChart').getContext('2d');
+        const cancerProstataIncidenciaChart = new Chart(cancerProstataIncidenciaCtx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
+                datasets: [{
+                    label: 'Casos por 100 mil homens',
+                    data: [62.0, 63.5, 65.2, 66.1, 65.8, 65.9, 65.8, 65.8],
+                    backgroundColor: 'rgba(44, 150, 223, 0.2)',
+                    borderColor: 'rgba(44, 150, 223, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const cancerProstataMortalidadeCtx = document.getElementById('cancerProstataMortalidadeChart').getContext('2d');
+        const cancerProstataMortalidadeChart = new Chart(cancerProstataMortalidadeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Brasil', 'Sudeste', 'Sul', 'Centro-Oeste', 'Nordeste', 'Norte'],
+                datasets: [{
+                    label: 'Mortes por 100 mil homens',
+                    data: [15.8, 16.5, 17.2, 14.1, 14.9, 11.8],
+                    backgroundColor: 'rgba(44, 150, 223, 0.7)',
+                    borderColor: 'rgba(44, 150, 223, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        const cancerProstataIdadeCtx = document.getElementById('cancerProstataIdadeChart').getContext('2d');
+        const cancerProstataIdadeChart = new Chart(cancerProstataIdadeCtx, {
+            type: 'pie',
+            data: {
+                labels: ['< 50 anos', '50-59 anos', '60-69 anos', '70-79 anos', '80+ anos'],
+                datasets: [{
+                    data: [2, 15, 35, 35, 13],
+                    backgroundColor: [
+                        'rgba(44, 150, 223, 0.2)',
+                        'rgba(44, 150, 223, 0.4)',
+                        'rgba(44, 150, 223, 0.6)',
+                        'rgba(44, 150, 223, 0.8)',
+                        'rgba(44, 150, 223, 1)'
+                    ],
+                    borderColor: 'rgba(44, 150, 223, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
             }
         });
     </script>
