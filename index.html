@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Todos os estilos anteriores permanecem exatamente iguais */
         :root {
             --primary-yellow: #FFD400;
             --light-yellow: #FFEA7A;
@@ -660,33 +659,6 @@
         .footer-links a.pink:hover { color: var(--primary-pink); }
         .footer-links a.blue:hover { color: var(--primary-blue); }
 
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--light-text);
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--primary-yellow);
-            color: var(--dark-blue);
-            transform: translateY(-3px);
-        }
-
-        .social-links a.pink:hover { background: var(--primary-pink); color: white; }
-        .social-links a.blue:hover { background: var(--primary-blue); color: white; }
-
         .footer-bottom {
             text-align: center;
             padding-top: 20px;
@@ -835,6 +807,39 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
         }
+        
+        /* Estilo para números de telefone */
+        .phone-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            margin: 5px 0;
+            transition: var(--transition);
+        }
+        
+        .phone-number:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .phone-number.yellow {
+            color: var(--primary-yellow);
+            border-left: 3px solid var(--primary-yellow);
+        }
+        
+        .phone-number.pink {
+            color: var(--primary-pink);
+            border-left: 3px solid var(--primary-pink);
+        }
+        
+        .phone-number.blue {
+            color: var(--primary-blue);
+            border-left: 3px solid var(--primary-blue);
+        }
     </style>
 </head>
 <body>
@@ -879,7 +884,7 @@
                     <a href="#novembro-azul" class="btn btn-blue">
                         <i class="fas fa-mustache"></i> Novembro Azul
                     </a>
-                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20saúde%20mental" class="btn btn-secondary" target="_blank">
+                    <a href="tel:188" class="btn btn-secondary">
                         <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
                     </a>
                 </div>
@@ -912,8 +917,8 @@
                     </div>
                     
                     <a href="#setembro-amarelo" class="campanha-cta cta-yellow">Saiba mais</a>
-                    <a href="https://cvv.org.br/chat" class="help-button" target="_blank">
-                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    <a href="tel:188" class="help-button">
+                        <i class="fas fa-hand-holding-heart"></i> Ligue 188 (CVV)
                     </a>
                 </div>
             </div>
@@ -937,8 +942,8 @@
                     </div>
                     
                     <a href="#outubro-rosa" class="campanha-cta cta-pink">Saiba mais</a>
-                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20mama" class="help-button" target="_blank">
-                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    <a href="tel:136" class="help-button">
+                        <i class="fas fa-hand-holding-heart"></i> Disque Saúde 136
                     </a>
                 </div>
             </div>
@@ -962,8 +967,8 @@
                     </div>
                     
                     <a href="#novembro-azul" class="campanha-cta cta-blue">Saiba mais</a>
-                    <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20próstata" class="help-button" target="_blank">
-                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    <a href="tel:136" class="help-button">
+                        <i class="fas fa-hand-holding-heart"></i> Disque Saúde 136
                     </a>
                 </div>
             </div>
@@ -1052,13 +1057,19 @@
                     <div class="step fade-in">
                         <div class="step-number"><i class="fas fa-phone"></i></div>
                         <strong>CVV - Centro de Valorização da Vida</strong>
-                        <p>Ligue 188 (24 horas) ou acesse o chat online. Atendimento gratuito e sigiloso.</p>
+                        <p>Atendimento gratuito e sigiloso 24 horas por dia.</p>
+                        <div class="phone-number yellow">
+                            <i class="fas fa-phone"></i> Ligue 188
+                        </div>
                     </div>
                     
                     <div class="step fade-in">
                         <div class="step-number"><i class="fas fa-hospital"></i></div>
                         <strong>CAPS - Centros de Atenção Psicossocial</strong>
                         <p>Rede de serviços comunitários do SUS para atendimento em saúde mental.</p>
+                        <div class="phone-number yellow">
+                            <i class="fas fa-phone"></i> Consulte a unidade mais próxima
+                        </div>
                     </div>
                     
                     <div class="step fade-in">
@@ -1068,8 +1079,8 @@
                     </div>
                 </div>
                 
-                <a href="https://cvv.org.br/chat" class="help-button" target="_blank" style="margin-top: 20px;">
-                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista
+                <a href="tel:188" class="help-button" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Ligue 188 (CVV) - Atendimento Imediato
                 </a>
             </div>
         </section>
@@ -1179,8 +1190,18 @@
                     </div>
                 </div>
                 
-                <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20mama" class="help-button" target="_blank" style="margin-top: 20px;">
-                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista no WhatsApp
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px;">Recursos de Apoio:</h4>
+                    <div class="phone-number pink">
+                        <i class="fas fa-phone"></i> Disque Saúde: 136
+                    </div>
+                    <div class="phone-number pink">
+                        <i class="fas fa-phone"></i> INCA: (21) 3207-1400
+                    </div>
+                </div>
+                
+                <a href="tel:136" class="help-button" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Disque Saúde 136 - Informações sobre Câncer de Mama
                 </a>
             </div>
         </section>
@@ -1290,8 +1311,21 @@
                     </div>
                 </div>
                 
-                <a href="https://wa.me/5521932071400?text=Preciso%20de%20ajuda%20com%20câncer%20de%20próstata" class="help-button" target="_blank" style="margin-top: 20px;">
-                    <i class="fas fa-hand-holding-heart"></i> Falar com Especialista no WhatsApp
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px;">Recursos de Apoio:</h4>
+                    <div class="phone-number blue">
+                        <i class="fas fa-phone"></i> Disque Saúde: 136
+                    </div>
+                    <div class="phone-number blue">
+                        <i class="fas fa-phone"></i> INCA: (21) 3207-1400
+                    </div>
+                    <div class="phone-number blue">
+                        <i class="fas fa-phone"></i> Sociedade Brasileira de Urologia: (11) 3078-0400
+                    </div>
+                </div>
+                
+                <a href="tel:136" class="help-button" style="margin-top: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i> Disque Saúde 136 - Informações sobre Câncer de Próstata
                 </a>
             </div>
         </section>
@@ -1312,7 +1346,7 @@
                         <li><a href="#outubro-rosa" class="pink"><i class="fas fa-chevron-right"></i> Outubro Rosa</a></li>
                         <li><a href="#novembro-azul" class="blue"><i class="fas fa-chevron-right"></i> Novembro Azul</a></li>
                         <li><a href="#" class="yellow"><i class="fas fa-chevron-right"></i> Estatísticas</a></li>
-                        <li><a href="https://wa.me/5511999999999?text=Preciso%20de%20ajuda" class="pink" target="_blank"><i class="fas fa-chevron-right"></i> Preciso de Ajuda</a></li>
+                        <li><a href="tel:188" class="pink"><i class="fas fa-chevron-right"></i> Preciso de Ajuda</a></li>
                     </ul>
                 </div>
                 
