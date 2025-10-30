@@ -608,7 +608,7 @@
 
         .quiz-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             margin-top: 30px;
         }
 
@@ -633,17 +633,6 @@
 
         .quiz-btn:disabled:hover {
             transform: none;
-        }
-
-        .btn-prev {
-            background: transparent;
-            color: var(--light-text);
-            border: 1px solid var(--card-border);
-        }
-
-        .btn-prev:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
         }
 
         .btn-next {
@@ -1181,7 +1170,7 @@
                     <ul style="color: var(--medium-text); padding-left: 20px;">
                         <li>Você terá 45 minutos para completar o quiz</li>
                         <li>Cada pergunta tem apenas uma resposta correta</li>
-                        <li>Você pode pular perguntas e voltar depois</li>
+                        <li><strong>Não é possível voltar para questões anteriores</strong></li>
                         <li>O quiz será enviado automaticamente quando o tempo acabar</li>
                         <li>Receba feedback detalhado sobre suas respostas ao final</li>
                     </ul>
@@ -1247,9 +1236,6 @@
                     </div>
                     
                     <div class="quiz-actions">
-                        <button id="prev-btn" class="quiz-btn btn-prev" disabled>
-                            <i class="fas fa-arrow-left"></i> Anterior
-                        </button>
                         <button id="next-btn" class="quiz-btn btn-next">
                             Próxima <i class="fas fa-arrow-right"></i>
                         </button>
@@ -1800,7 +1786,6 @@
         const questionDifficultyElement = document.getElementById('question-difficulty');
         const questionTextElement = document.getElementById('question-text');
         const optionsContainerElement = document.getElementById('options-container');
-        const prevButton = document.getElementById('prev-btn');
         const nextButton = document.getElementById('next-btn');
         const submitButton = document.getElementById('submit-btn');
         const correctCountElement = document.getElementById('correct-count');
@@ -1824,7 +1809,6 @@
         // Initialize the quiz
         function initQuiz() {
             startQuizButton.addEventListener('click', startQuiz);
-            prevButton.addEventListener('click', goToPreviousQuestion);
             nextButton.addEventListener('click', goToNextQuestion);
             submitButton.addEventListener('click', submitQuiz);
             reviewQuizButton.addEventListener('click', showReview);
@@ -1909,8 +1893,12 @@
             // Clear options container
             optionsContainerElement.innerHTML = '';
             
+            // Embaralhar as opções de resposta
+            const shuffledOptions = shuffleArray([...question.options]);
+            const correctAnswerIndex = shuffledOptions.indexOf(question.options[question.correctAnswer]);
+            
             // Add options
-            question.options.forEach((option, index) => {
+            shuffledOptions.forEach((option, index) => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'option';
                 if (userAnswers[questionIndex] === index) {
@@ -1922,13 +1910,11 @@
                     <div class="option-text">${option}</div>
                 `;
                 
-                optionElement.addEventListener('click', () => selectOption(questionIndex, index));
+                optionElement.addEventListener('click', () => selectOption(questionIndex, index, correctAnswerIndex));
                 optionsContainerElement.appendChild(optionElement);
             });
             
             // Update navigation buttons
-            prevButton.disabled = questionIndex === 0;
-            
             if (questionIndex === quizData.length - 1) {
                 nextButton.style.display = 'none';
                 submitButton.style.display = 'inline-flex';
@@ -1938,30 +1924,60 @@
             }
         }
 
+        // Embaralhar array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
         // Select an option
-        function selectOption(questionIndex, optionIndex) {
+        function selectOption(questionIndex, optionIndex, correctAnswerIndex) {
+            // Marcar a resposta do usuário
             userAnswers[questionIndex] = optionIndex;
+            
+            // Verificar se a resposta está correta
+            const isCorrect = optionIndex === correctAnswerIndex;
+            
+            // Atualizar estatísticas
+            if (isCorrect) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
             
             // Update the selected option visually
             const options = optionsContainerElement.querySelectorAll('.option');
             options.forEach((option, index) => {
                 if (index === optionIndex) {
                     option.classList.add('selected');
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                        // Mostrar a resposta correta
+                        options[correctAnswerIndex].classList.add('correct');
+                    }
                 } else {
                     option.classList.remove('selected');
                 }
             });
             
-            // Update stats
+            // Desabilitar cliques nas opções após seleção
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Atualizar estatísticas
             updateStats();
-        }
-
-        // Go to the previous question
-        function goToPreviousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion(currentQuestion);
-                updateProgress();
+            
+            // Habilitar o botão próximo após seleção
+            nextButton.disabled = false;
+            if (currentQuestion === quizData.length - 1) {
+                submitButton.disabled = false;
             }
         }
 
@@ -1971,6 +1987,9 @@
                 currentQuestion++;
                 loadQuestion(currentQuestion);
                 updateProgress();
+                
+                // Desabilitar o botão próximo até que uma opção seja selecionada
+                nextButton.disabled = true;
             }
         }
 
@@ -1983,19 +2002,7 @@
 
         // Update stats (correct, incorrect, skipped)
         function updateStats() {
-            correctAnswers = 0;
-            incorrectAnswers = 0;
-            skippedQuestions = 0;
-            
-            userAnswers.forEach((answer, index) => {
-                if (answer === null) {
-                    skippedQuestions++;
-                } else if (answer === quizData[index].correctAnswer) {
-                    correctAnswers++;
-                } else {
-                    incorrectAnswers++;
-                }
-            });
+            skippedQuestions = quizData.length - (correctAnswers + incorrectAnswers);
             
             correctCountElement.textContent = correctAnswers;
             incorrectCountElement.textContent = incorrectAnswers;
@@ -2098,20 +2105,23 @@
             questionsReviewElement.innerHTML = '';
             
             quizData.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                const isCorrect = userAnswer === question.correctAnswer;
+                // Reconstruir a ordem das opções para a revisão
+                const shuffledOptions = shuffleArray([...question.options]);
+                const correctAnswerIndex = shuffledOptions.indexOf(question.options[question.correctAnswer]);
+                const userAnswerIndex = userAnswers[index];
+                const isCorrect = userAnswerIndex === correctAnswerIndex;
                 
                 const reviewQuestion = document.createElement('div');
                 reviewQuestion.className = `review-question ${isCorrect ? 'correct' : 'incorrect'}`;
                 
                 let optionsHTML = '';
-                question.options.forEach((option, optionIndex) => {
+                shuffledOptions.forEach((option, optionIndex) => {
                     let optionClass = '';
-                    if (optionIndex === question.correctAnswer) {
+                    if (optionIndex === correctAnswerIndex) {
                         optionClass = 'correct-answer';
-                    } else if (optionIndex === userAnswer && !isCorrect) {
+                    } else if (optionIndex === userAnswerIndex && !isCorrect) {
                         optionClass = 'user-incorrect';
-                    } else if (optionIndex === userAnswer) {
+                    } else if (optionIndex === userAnswerIndex) {
                         optionClass = 'user-answer';
                     }
                     
