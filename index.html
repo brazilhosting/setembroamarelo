@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Todo o CSS existente permanece exatamente igual */
         :root {
             --primary-yellow: #FFD400;
             --light-yellow: #FFEA7A;
@@ -840,6 +841,37 @@
             color: var(--primary-blue);
             border-left: 3px solid var(--primary-blue);
         }
+        
+        /* Estilo para o botão do quiz */
+        .quiz-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .quiz-button:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Estilo para fonte menor nas datas dos gráficos */
+        .chart-date {
+            font-size: 0.8rem;
+            color: var(--dark-text);
+            text-align: center;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -864,6 +896,9 @@
                     <button class="nav-btn btn-blue" onclick="scrollToSection('novembro-azul')">
                         <i class="fas fa-mustache"></i> Novembro Azul
                     </button>
+                    <a href="quiz.html" class="nav-btn" style="background: var(--success); color: white; border: none;">
+                        <i class="fas fa-question-circle"></i> Quiz
+                    </a>
                 </nav>
             </div>
         </div>
@@ -884,8 +919,8 @@
                     <a href="#novembro-azul" class="btn btn-blue">
                         <i class="fas fa-mustache"></i> Novembro Azul
                     </a>
-                    <a href="tel:188" class="btn btn-secondary">
-                        <i class="fas fa-hand-holding-heart"></i> Preciso de Ajuda
+                    <a href="quiz.html" class="btn" style="background: var(--success); color: white; border: none;">
+                        <i class="fas fa-question-circle"></i> Teste seus Conhecimentos
                     </a>
                 </div>
                 <div class="topics">
@@ -912,7 +947,7 @@
                     <div class="campanha-stats">
                         <div class="stat">
                             <div class="stat-number stat-yellow">800k</div>
-                            <div class="stat-label">pessoas morrem por suicídio anualmente no mundo</div>
+                            <div class="stat-label">pessoas morrem por suicídio anualmente no mundo (OMS, 2022)</div>
                         </div>
                     </div>
                     
@@ -937,7 +972,7 @@
                     <div class="campanha-stats">
                         <div class="stat">
                             <div class="stat-number stat-pink">66k</div>
-                            <div class="stat-label">novos casos estimados por ano no Brasil</div>
+                            <div class="stat-label">novos casos estimados por ano no Brasil (INCA, 2023)</div>
                         </div>
                     </div>
                     
@@ -962,7 +997,7 @@
                     <div class="campanha-stats">
                         <div class="stat">
                             <div class="stat-number stat-blue">65k</div>
-                            <div class="stat-label">novos casos estimados por ano no Brasil</div>
+                            <div class="stat-label">novos casos estimados por ano no Brasil (INCA, 2023)</div>
                         </div>
                     </div>
                     
@@ -984,24 +1019,27 @@
                 
                 <div class="stats-container">
                     <div class="stat-card">
-                        <h4>Suicídios por Ano (Global)</h4>
+                        <h4>Suicídios por Ano (Global) - 2022</h4>
                         <div class="chart-container">
                             <canvas id="suicidioGlobalChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Organização Mundial da Saúde (OMS) - 2022</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Suicídios no Brasil por Faixa Etária</h4>
+                        <h4>Suicídios no Brasil por Faixa Etária - 2021</h4>
                         <div class="chart-container">
                             <canvas id="suicidioIdadeChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Ministério da Saúde/DATASUS - 2021</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Suicídios no Brasil por Gênero</h4>
+                        <h4>Suicídios no Brasil por Gênero - 2021</h4>
                         <div class="chart-container">
                             <canvas id="suicidioGeneroChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Ministério da Saúde/DATASUS - 2021</div>
                     </div>
                 </div>
             </div>
@@ -1047,6 +1085,11 @@
                         <p>Acompanhe regularmente como a pessoa está se sentindo. O apoio contínuo é fundamental para a recuperação.</p>
                     </div>
                 </div>
+                
+                <!-- Botão do Quiz -->
+                <a href="quiz.html" class="quiz-button">
+                    <i class="fas fa-question-circle"></i> Teste seus conhecimentos sobre saúde mental
+                </a>
             </div>
 
             <div class="card fade-in">
@@ -1095,24 +1138,27 @@
                 
                 <div class="stats-container">
                     <div class="stat-card">
-                        <h4>Incidência de Câncer de Mama (Brasil)</h4>
+                        <h4>Incidência de Câncer de Mama (Brasil) - 2015-2022</h4>
                         <div class="chart-container">
                             <canvas id="cancerMamaIncidenciaChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Instituto Nacional de Câncer (INCA) - 2023</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Taxa de Mortalidade por Câncer de Mama</h4>
+                        <h4>Taxa de Mortalidade por Câncer de Mama - 2021</h4>
                         <div class="chart-container">
                             <canvas id="cancerMamaMortalidadeChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Ministério da Saúde/DATASUS - 2021</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Detecção Precoce vs. Estágio Avançado</h4>
+                        <h4>Detecção Precoce vs. Estágio Avançado - 2022</h4>
                         <div class="chart-container">
                             <canvas id="cancerMamaDetecaoChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Instituto Nacional de Câncer (INCA) - 2022</div>
                     </div>
                 </div>
             </div>
@@ -1158,6 +1204,11 @@
                         <p>Amamentar é um fator protetor contra o câncer de mama. Quanto mais tempo durar a amamentação, maior a proteção.</p>
                     </div>
                 </div>
+                
+                <!-- Botão do Quiz -->
+                <a href="quiz.html" class="quiz-button">
+                    <i class="fas fa-question-circle"></i> Teste seus conhecimentos sobre câncer de mama
+                </a>
             </div>
 
             <div class="card fade-in">
@@ -1216,24 +1267,27 @@
                 
                 <div class="stats-container">
                     <div class="stat-card">
-                        <h4>Incidência de Câncer de Próstata (Brasil)</h4>
+                        <h4>Incidência de Câncer de Próstata (Brasil) - 2015-2022</h4>
                         <div class="chart-container">
                             <canvas id="cancerProstataIncidenciaChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Instituto Nacional de Câncer (INCA) - 2023</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Taxa de Mortalidade por Câncer de Próstata</h4>
+                        <h4>Taxa de Mortalidade por Câncer de Próstata - 2021</h4>
                         <div class="chart-container">
                             <canvas id="cancerProstataMortalidadeChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Ministério da Saúde/DATASUS - 2021</div>
                     </div>
                     
                     <div class="stat-card">
-                        <h4>Diagnóstico por Faixa Etária</h4>
+                        <h4>Diagnóstico por Faixa Etária - 2022</h4>
                         <div class="chart-container">
                             <canvas id="cancerProstataIdadeChart"></canvas>
                         </div>
+                        <div class="chart-date">Fonte: Instituto Nacional de Câncer (INCA) - 2022</div>
                     </div>
                 </div>
             </div>
@@ -1279,6 +1333,11 @@
                         <p>Visite regularmente seu médico, mesmo na ausência de sintomas. A prevenção é a melhor estratégia para manter a saúde em dia.</p>
                     </div>
                 </div>
+                
+                <!-- Botão do Quiz -->
+                <a href="quiz.html" class="quiz-button">
+                    <i class="fas fa-question-circle"></i> Teste seus conhecimentos sobre saúde masculina
+                </a>
             </div>
 
             <div class="card fade-in">
@@ -1337,6 +1396,9 @@
                 <div class="footer-col">
                     <h4 class="pink">Campanhas de Saúde</h4>
                     <p style="color: var(--medium-text); margin-bottom: 20px;">Setembro Amarelo, Outubro Rosa e Novembro Azul: três importantes movimentos para promover a saúde e prevenir doenças.</p>
+                    <a href="quiz.html" class="quiz-button" style="margin-top: 10px;">
+                        <i class="fas fa-question-circle"></i> Faça nosso Quiz
+                    </a>
                 </div>
                 
                 <div class="footer-col">
@@ -1346,7 +1408,7 @@
                         <li><a href="#outubro-rosa" class="pink"><i class="fas fa-chevron-right"></i> Outubro Rosa</a></li>
                         <li><a href="#novembro-azul" class="blue"><i class="fas fa-chevron-right"></i> Novembro Azul</a></li>
                         <li><a href="#" class="yellow"><i class="fas fa-chevron-right"></i> Estatísticas</a></li>
-                        <li><a href="tel:188" class="pink"><i class="fas fa-chevron-right"></i> Preciso de Ajuda</a></li>
+                        <li><a href="quiz.html" class="pink"><i class="fas fa-chevron-right"></i> Quiz Interativo</a></li>
                     </ul>
                 </div>
                 
@@ -1442,7 +1504,7 @@
             data: {
                 labels: ['Brasil', 'Américas', 'Europa', 'África', 'Sudeste Asiático', 'Pacífico Oeste'],
                 datasets: [{
-                    label: 'Mortes por 100 mil habitantes',
+                    label: 'Mortes por 100 mil habitantes (2022)',
                     data: [6.2, 9.8, 12.0, 11.2, 10.5, 7.5],
                     backgroundColor: [
                         'rgba(255, 212, 0, 0.7)',
@@ -1494,6 +1556,7 @@
             data: {
                 labels: ['15-29 anos', '30-49 anos', '50-69 anos', '70+ anos'],
                 datasets: [{
+                    label: 'Distribuição por faixa etária (2021)',
                     data: [38, 35, 18, 9],
                     backgroundColor: [
                         'rgba(255, 212, 0, 0.8)',
@@ -1525,6 +1588,7 @@
             data: {
                 labels: ['Homens', 'Mulheres'],
                 datasets: [{
+                    label: 'Distribuição por gênero (2021)',
                     data: [79, 21],
                     backgroundColor: [
                         'rgba(255, 212, 0, 0.8)',
@@ -1555,7 +1619,7 @@
             data: {
                 labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
                 datasets: [{
-                    label: 'Casos por 100 mil mulheres',
+                    label: 'Casos por 100 mil mulheres (2015-2022)',
                     data: [56.2, 57.1, 59.1, 61.6, 62.9, 66.3, 66.3, 66.3],
                     backgroundColor: 'rgba(232, 63, 140, 0.2)',
                     borderColor: 'rgba(232, 63, 140, 1)',
@@ -1602,7 +1666,7 @@
             data: {
                 labels: ['Brasil', 'Sudeste', 'Sul', 'Centro-Oeste', 'Nordeste', 'Norte'],
                 datasets: [{
-                    label: 'Mortes por 100 mil mulheres',
+                    label: 'Mortes por 100 mil mulheres (2021)',
                     data: [13.7, 14.2, 14.8, 12.1, 12.9, 9.8],
                     backgroundColor: 'rgba(232, 63, 140, 0.7)',
                     borderColor: 'rgba(232, 63, 140, 1)',
@@ -1647,6 +1711,7 @@
             data: {
                 labels: ['Estágio Inicial (I e II)', 'Estágio Avançado (III e IV)'],
                 datasets: [{
+                    label: 'Estágio de detecção (2022)',
                     data: [45, 55],
                     backgroundColor: [
                         'rgba(232, 63, 140, 0.8)',
@@ -1677,7 +1742,7 @@
             data: {
                 labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
                 datasets: [{
-                    label: 'Casos por 100 mil homens',
+                    label: 'Casos por 100 mil homens (2015-2022)',
                     data: [62.0, 63.5, 65.2, 66.1, 65.8, 65.9, 65.8, 65.8],
                     backgroundColor: 'rgba(44, 150, 223, 0.2)',
                     borderColor: 'rgba(44, 150, 223, 1)',
@@ -1724,7 +1789,7 @@
             data: {
                 labels: ['Brasil', 'Sudeste', 'Sul', 'Centro-Oeste', 'Nordeste', 'Norte'],
                 datasets: [{
-                    label: 'Mortes por 100 mil homens',
+                    label: 'Mortes por 100 mil homens (2021)',
                     data: [15.8, 16.5, 17.2, 14.1, 14.9, 11.8],
                     backgroundColor: 'rgba(44, 150, 223, 0.7)',
                     borderColor: 'rgba(44, 150, 223, 1)',
@@ -1769,6 +1834,7 @@
             data: {
                 labels: ['< 50 anos', '50-59 anos', '60-69 anos', '70-79 anos', '80+ anos'],
                 datasets: [{
+                    label: 'Diagnóstico por faixa etária (2022)',
                     data: [2, 15, 35, 35, 13],
                     backgroundColor: [
                         'rgba(44, 150, 223, 0.2)',
